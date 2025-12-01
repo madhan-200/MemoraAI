@@ -33,6 +33,10 @@ function App() {
     // }
   };
 
+  const handleSuggestionClick = (suggestion) => {
+    handleSendMessage(suggestion);
+  };
+
   return (
     <div className="h-screen flex flex-col relative overflow-hidden bg-dark-950">
       {/* Ambient Background Effects */}
@@ -86,7 +90,11 @@ function App() {
       <div className="flex-1 max-w-5xl w-full mx-auto flex gap-6 p-4 pt-24 md:pt-28 pb-4 overflow-hidden relative z-10">
         {/* Chat Area */}
         <div className="flex-1 flex flex-col glass-panel rounded-3xl overflow-hidden min-w-0 shadow-2xl shadow-black/50">
-          <ChatInterface messages={messages} isLoading={isLoading} />
+          <ChatInterface
+            messages={messages}
+            isLoading={isLoading}
+            onSuggestionClick={handleSuggestionClick}
+          />
           <InputPanel
             onSendMessage={handleSendMessage}
             isLoading={isLoading}
