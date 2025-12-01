@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: memora-backend
+    env: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: CHROMA_PERSIST_DIRECTORY
+        value: /app/chroma_db
+      - key: CORS_ORIGINS
+        value: https://memora.netlify.app,http://localhost:5173
+      - key: HOST
+        value: 0.0.0.0
+      - key: PORT
+        value: 8000
+    autoDeploy: true
+    healthCheckPath: /health

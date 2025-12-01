@@ -1,0 +1,35 @@
+[
+  {
+    "id": "e20f6b9d-6672-4924-a56c-7cba83b83f25",
+    "content": "Hello, my name is Alex",
+    "user_id": "test_user",
+    "timestamp": "2025-12-01T13:28:29.149628",
+    "source": "User: Hello, my name is Alex...",
+    "metadata": {
+      "type": "conversation",
+      "assistant_response": "Hi Alex, it's nice to meet you! I'm Memora. How can I help you today?\n"
+    }
+  },
+  {
+    "id": "598832fa-71dc-446a-89bf-1b25a8d0ce7f",
+    "content": "My favorite color is purple and I love coding in Python.",
+    "user_id": "test_user_memory_check",
+    "timestamp": "2025-12-01T14:51:23.984126",
+    "source": "User: My favorite color is purple and I love coding in Python....",
+    "metadata": {
+      "type": "conversation",
+      "assistant_response": "Okay, I've got it! I've stored that your favorite color is purple and you enjoy coding in Python. That's great! \n\nIs there anything specific you'd like to talk about today? Perhaps something about Pyt"
+    }
+  },
+  {
+    "id": "594df383-dffa-482a-a604-b73c7145b059",
+    "content": "What is my favorite color?",
+    "user_id": "test_user_memory_check",
+    "timestamp": "2025-12-01T14:51:31.924775",
+    "source": "User: What is my favorite color?...",
+    "metadata": {
+      "type": "conversation",
+      "assistant_response": "Hello! Based on what I remember, your favorite color is purple. I hope you're having a wonderful day!\n"
+    }
+  }
+]
