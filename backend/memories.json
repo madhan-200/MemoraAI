@@ -31,5 +31,16 @@
       "type": "conversation",
       "assistant_response": "Hello! Based on what I remember, your favorite color is purple. I hope you're having a wonderful day!\n"
     }
+  },
+  {
+    "id": "03e9d775-e57c-4d27-962b-2471ca8648b0",
+    "content": "my name is madhan",
+    "user_id": "default_user",
+    "timestamp": "2025-12-01T18:09:59.734064",
+    "source": "User: my name is madhan...",
+    "metadata": {
+      "type": "conversation",
+      "assistant_response": "Hello Madhan! It's nice to meet you. I'm Memora, and I'm here to help. Is there anything I can assist you with today?\n"
+    }
   }
 ]

@@ -68,6 +68,7 @@ export const useChat = (userId = 'default_user') => {
     }, [userId, addMessage]);
 
     const clearMessages = useCallback(() => {
+        console.log('Clearing messages...');
         setMessages([]);
         localStorage.removeItem(`chat_${userId}`);
     }, [userId]);
