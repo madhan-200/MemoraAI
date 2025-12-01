@@ -2,7 +2,7 @@
  * Chat interface component displaying messages
  */
 import { useEffect, useRef } from 'react';
-import { Bot, User, Loader2 } from 'lucide-react';
+import { Bot, User } from 'lucide-react';
 
 export const ChatInterface = ({ messages, isLoading }) => {
     const messagesEndRef = useRef(null);
@@ -25,24 +25,28 @@ export const ChatInterface = ({ messages, isLoading }) => {
                         <div className="relative z-10">
                             <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-primary-500 to-secondary-500 p-0.5 animate-float">
                                 <div className="w-full h-full bg-dark-900 rounded-2xl flex items-center justify-center">
-                                    <Bot size={40} className="text-transparent bg-clip-text bg-gradient-to-br from-primary-400 to-secondary-400" />
+                                    <Bot size={40} className="text-primary-400" />
                                 </div>
                             </div>
 
-                            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+                            <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ color: '#f1f5f9' }}>
                                 Hello, I'm <span className="text-gradient">Memora</span>
                             </h2>
 
-                            <p className="text-dark-300 text-lg leading-relaxed mb-8">
+                            <p className="text-lg leading-relaxed mb-8" style={{ color: '#cbd5e1' }}>
                                 I'm your personal AI companion with long-term memory.
                                 I learn from our conversations to serve you better.
                             </p>
 
                             <div className="flex flex-wrap justify-center gap-3">
                                 {['What can you remember?', 'Who am I?', 'Tell me a joke'].map((suggestion) => (
-                                    <div key={suggestion} className="glass-button px-4 py-2 rounded-xl text-sm text-dark-300 cursor-pointer hover:text-white">
+                                    <button
+                                        key={suggestion}
+                                        className="glass-button px-4 py-2 rounded-xl text-sm cursor-pointer hover:scale-105 transition-transform"
+                                        style={{ color: '#e2e8f0' }}
+                                    >
                                         "{suggestion}"
-                                    </div>
+                                    </button>
                                 ))}
                             </div>
                         </div>
@@ -54,7 +58,7 @@ export const ChatInterface = ({ messages, isLoading }) => {
                         <MessageBubble key={msg.id} message={msg} />
                     ))}
                     {isLoading && (
-                        <div className="flex items-center gap-3 text-dark-400 ml-4 animate-pulse">
+                        <div className="flex items-center gap-3 ml-4 animate-pulse" style={{ color: '#94a3b8' }}>
                             <div className="w-8 h-8 rounded-full glass-panel flex items-center justify-center">
                                 <Bot size={16} className="text-primary-400" />
                             </div>
@@ -81,7 +85,7 @@ const MessageBubble = ({ message }) => {
     }
 
     return (
-        <div className={`flex items-end gap-3 ${isUser ? 'flex-row-reverse' : ''} group`}>
+        <div className={`flex items-end gap-3 ${isUser ? 'flex-row-reverse' : ''} group relative`}>
             <div className={`flex-shrink-0 w-8 h-8 rounded-xl flex items-center justify-center shadow-lg ${isUser
                     ? 'bg-gradient-to-br from-primary-500 to-primary-600 text-white'
                     : 'glass-panel text-primary-400'
@@ -101,7 +105,7 @@ const MessageBubble = ({ message }) => {
                     </div>
                 )}
 
-                <p className={`text-[10px] mt-1 opacity-0 group-hover:opacity-100 transition-opacity absolute -bottom-5 ${isUser ? 'right-0' : 'left-0'} text-dark-400 whitespace-nowrap`}>
+                <p className={`text-[10px] mt-1 opacity-0 group-hover:opacity-100 transition-opacity absolute -bottom-5 ${isUser ? 'right-0' : 'left-0'} whitespace-nowrap`} style={{ color: '#94a3b8' }}>
                     {new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </p>
             </div>

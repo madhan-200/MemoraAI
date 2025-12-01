@@ -2,17 +2,20 @@
  * Main App component
  */
 import { useState } from 'react';
-import { Brain, Trash2, Menu, X } from 'lucide-react';
+import { Brain, Trash2, Menu, X, Settings } from 'lucide-react';
 import { ChatInterface } from './components/ChatInterface';
 import { InputPanel } from './components/InputPanel';
 import { MemoryPanel } from './components/MemoryPanel';
+import { SettingsPanel } from './components/SettingsPanel';
 import { useChat } from './hooks/useChat';
+import { ThemeProvider } from './contexts/ThemeContext';
 import './index.css';
 
 function App() {
   const [userId] = useState('default_user');
   const [memoryEnabled, setMemoryEnabled] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const { messages, isLoading, sendMessage, clearMessages } = useChat(userId);
 
   const handleSendMessage = async (message) => {
@@ -57,14 +60,25 @@ function App() {
             </div>
           </div>
 
-          <button
-            onClick={handleClearChat}
-            className="glass-button px-4 py-2 rounded-xl text-sm flex items-center gap-2 hover:bg-red-500/20 hover:border-red-500/30 group"
-            title="Clear chat history"
-          >
-            <Trash2 size={16} className="text-dark-300 group-hover:text-red-400 transition-colors" />
-            <span className="hidden sm:inline text-dark-300 group-hover:text-red-100 transition-colors">Clear Chat</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setIsSettingsOpen(true)}
+              className="glass-button px-4 py-2 rounded-xl text-sm flex items-center gap-2 hover:bg-primary-500/20 hover:border-primary-500/30 group"
+              title="Appearance Settings"
+            >
+              <Settings size={16} className="text-dark-300 group-hover:text-primary-400 transition-colors" />
+              <span className="hidden sm:inline text-dark-300 group-hover:text-white transition-colors">Settings</span>
+            </button>
+
+            <button
+              onClick={handleClearChat}
+              className="glass-button px-4 py-2 rounded-xl text-sm flex items-center gap-2 hover:bg-red-500/20 hover:border-red-500/30 group"
+              title="Clear chat history"
+            >
+              <Trash2 size={16} className="text-dark-300 group-hover:text-red-400 transition-colors" />
+              <span className="hidden sm:inline text-dark-300 group-hover:text-red-100 transition-colors">Clear Chat</span>
+            </button>
+          </div>
         </div>
       </header>
 
@@ -114,8 +128,17 @@ function App() {
           </div>
         </aside>
       </div>
+
+      {/* Settings Panel */}
+      <SettingsPanel isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
     </div>
   );
 }
 
-export default App;
+export default function AppWithTheme() {
+  return (
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
+  );
+}
