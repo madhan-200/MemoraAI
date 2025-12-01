@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,41 +6,42 @@
 
 @layer base {
   body {
-    @apply bg-gradient-to-br from-dark-900 via-dark-800 to-dark-900 text-dark-100 font-sans;
+    @apply bg-dark-950 text-dark-100 font-sans overflow-hidden;
+    background-image:
+      radial-gradient(circle at 0% 0%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 100% 0%, rgba(34, 211, 238, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 100% 100%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 0% 100%, rgba(34, 211, 238, 0.15) 0%, transparent 50%);
   }
 }
 
 @layer components {
-  .glass-effect {
-    @apply bg-white/5 backdrop-blur-lg border border-white/10;
+  .glass-panel {
+    @apply bg-dark-900/40 backdrop-blur-xl border border-white/5 shadow-xl;
   }
-  
+
+  .glass-button {
+    @apply bg-white/5 hover:bg-white/10 backdrop-blur-md border border-white/5 text-white transition-all duration-300 active:scale-95;
+  }
+
   .btn-primary {
-    @apply bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600 
-           text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 
-           shadow-lg shadow-primary-500/20 hover:shadow-primary-500/40;
+    @apply bg-gradient-to-r from-primary-600 to-secondary-500 hover:from-primary-500 hover:to-secondary-400 text-white font-medium px-6 py-3 rounded-xl transition-all duration-300 shadow-lg shadow-primary-500/25 hover:shadow-primary-500/40 hover:-translate-y-0.5;
   }
-  
-  .btn-secondary {
-    @apply glass-effect hover:bg-white/10 text-dark-100 font-medium px-4 py-2 rounded-lg 
-           transition-all duration-200;
+
+  .input-bar {
+    @apply bg-dark-800/50 backdrop-blur-md border border-white/10 px-6 py-4 rounded-2xl text-white placeholder-dark-400 focus:outline-none focus:border-primary-500/50 focus:ring-1 focus:ring-primary-500/50 transition-all duration-300 shadow-lg;
   }
-  
-  .input-field {
-    @apply glass-effect px-4 py-3 rounded-lg text-dark-100 placeholder-dark-400 
-           focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-all;
-  }
-  
+
   .message-bubble {
-    @apply rounded-2xl px-4 py-3 max-w-[80%] animate-fade-in;
+    @apply rounded-2xl px-5 py-3.5 max-w-[85%] md:max-w-[75%] animate-fade-in-up shadow-md;
   }
-  
+
   .message-user {
-    @apply message-bubble bg-gradient-to-r from-primary-600 to-primary-500 text-white ml-auto;
+    @apply message-bubble bg-gradient-to-br from-primary-600 to-primary-700 text-white ml-auto rounded-tr-sm;
   }
-  
+
   .message-assistant {
-    @apply message-bubble glass-effect text-dark-100;
+    @apply message-bubble bg-dark-800/80 backdrop-blur-md border border-white/5 text-dark-100 rounded-tl-sm;
   }
 }
 
@@ -48,9 +49,15 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
-  
+
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-400 via-secondary-400 to-primary-400;
+    background-size: 300% 300%;
+    animation: gradient 4s ease infinite;
   }
 }

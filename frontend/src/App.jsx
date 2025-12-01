@@ -31,44 +31,47 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col relative">
-      {/* Header */}
-      <header className="glass-effect border-b border-white/10 p-4 sticky top-0 z-20">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
+    <div className="h-screen flex flex-col relative overflow-hidden bg-dark-950">
+      {/* Ambient Background Effects */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary-500/20 rounded-full blur-[100px] animate-pulse-slow pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary-500/20 rounded-full blur-[100px] animate-pulse-slow delay-1000 pointer-events-none" />
+
+      {/* Floating Header */}
+      <header className="absolute top-0 left-0 right-0 z-30 p-4 md:p-6 pointer-events-none">
+        <div className="max-w-7xl mx-auto flex items-center justify-between pointer-events-auto">
+          <div className="glass-button px-4 py-2 rounded-xl flex items-center gap-3">
             <button
-              className="lg:hidden p-2 hover:bg-white/10 rounded-lg transition-colors"
+              className="lg:hidden p-1 hover:bg-white/10 rounded-lg transition-colors"
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
             >
-              {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
+              {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
 
-            <div className="bg-gradient-to-r from-primary-600 to-primary-500 p-2 rounded-lg">
-              <Brain size={24} className="text-white" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-400 to-primary-600 bg-clip-text text-transparent">
+            <div className="flex items-center gap-2">
+              <div className="bg-gradient-to-br from-primary-500 to-secondary-500 p-1.5 rounded-lg shadow-lg shadow-primary-500/20">
+                <Brain size={20} className="text-white" />
+              </div>
+              <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-primary-200 to-white">
                 Memora
               </h1>
-              <p className="text-xs text-dark-400 hidden sm:block">AI with Long-Term Memory</p>
             </div>
           </div>
 
           <button
             onClick={handleClearChat}
-            className="btn-secondary text-sm flex items-center gap-2"
+            className="glass-button px-4 py-2 rounded-xl text-sm flex items-center gap-2 hover:bg-red-500/20 hover:border-red-500/30 group"
             title="Clear chat history"
           >
-            <Trash2 size={16} />
-            <span className="hidden sm:inline">Clear</span>
+            <Trash2 size={16} className="text-dark-300 group-hover:text-red-400 transition-colors" />
+            <span className="hidden sm:inline text-dark-300 group-hover:text-red-100 transition-colors">Clear Chat</span>
           </button>
         </div>
       </header>
 
       {/* Main Content */}
-      <div className="flex-1 max-w-7xl w-full mx-auto flex gap-4 p-4 overflow-hidden relative">
+      <div className="flex-1 max-w-5xl w-full mx-auto flex gap-6 p-4 pt-24 md:pt-28 pb-4 overflow-hidden relative z-10">
         {/* Chat Area */}
-        <div className="flex-1 flex flex-col glass-effect rounded-2xl overflow-hidden min-w-0">
+        <div className="flex-1 flex flex-col glass-panel rounded-3xl overflow-hidden min-w-0 shadow-2xl shadow-black/50">
           <ChatInterface messages={messages} isLoading={isLoading} />
           <InputPanel
             onSendMessage={handleSendMessage}
@@ -80,31 +83,34 @@ function App() {
 
         {/* Sidebar - Desktop & Mobile Drawer */}
         <div className={`
-          fixed inset-0 z-10 bg-dark-900/80 backdrop-blur-sm lg:hidden transition-opacity duration-300
+          fixed inset-0 z-40 bg-dark-950/80 backdrop-blur-md lg:hidden transition-opacity duration-300
           ${isSidebarOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}
         `} onClick={() => setIsSidebarOpen(false)} />
 
         <aside className={`
-          fixed lg:static inset-y-0 left-0 z-20 w-80 bg-dark-900 lg:bg-transparent p-4 lg:p-0
-          transform transition-transform duration-300 ease-in-out lg:transform-none space-y-4
+          fixed lg:static inset-y-0 left-0 z-50 w-80 p-4 lg:p-0
+          transform transition-transform duration-300 ease-out lg:transform-none space-y-4
           ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
-          border-r border-white/10 lg:border-none
         `}>
-          <div className="flex items-center justify-between lg:hidden mb-4">
-            <h2 className="font-bold text-lg">Menu</h2>
-            <button onClick={() => setIsSidebarOpen(false)} className="p-2 hover:bg-white/10 rounded-lg">
-              <X size={20} />
-            </button>
-          </div>
+          <div className="h-full flex flex-col gap-4 lg:h-auto">
+            <div className="flex items-center justify-between lg:hidden mb-2 px-2">
+              <h2 className="font-bold text-lg text-white">Menu</h2>
+              <button onClick={() => setIsSidebarOpen(false)} className="p-2 hover:bg-white/10 rounded-lg text-white">
+                <X size={20} />
+              </button>
+            </div>
 
-          <MemoryPanel userId={userId} />
+            <MemoryPanel userId={userId} />
 
-          <div className="glass-effect p-4 rounded-2xl">
-            <h3 className="font-semibold mb-2 text-sm">About Memora</h3>
-            <p className="text-xs text-dark-300 leading-relaxed">
-              Memora is an AI assistant that remembers your preferences, goals, and
-              conversations. The more you chat, the better it understands you.
-            </p>
+            <div className="glass-panel p-5 rounded-2xl mt-auto lg:mt-0">
+              <h3 className="font-semibold mb-2 text-sm text-white flex items-center gap-2">
+                <Brain size={14} className="text-primary-400" />
+                About Memora
+              </h3>
+              <p className="text-xs text-dark-300 leading-relaxed">
+                Your personal AI companion that evolves with you. It remembers your context, preferences, and history to provide a truly personalized experience.
+              </p>
+            </div>
           </div>
         </aside>
       </div>

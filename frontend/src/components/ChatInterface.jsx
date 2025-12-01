@@ -16,16 +16,36 @@ export const ChatInterface = ({ messages, isLoading }) => {
     }, [messages]);
 
     return (
-        <div className="flex-1 overflow-y-auto p-6 space-y-4 scrollbar-hide">
+        <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 scrollbar-hide">
             {messages.length === 0 ? (
-                <div className="flex flex-col items-center justify-center h-full text-center">
-                    <div className="glass-effect p-8 rounded-2xl max-w-md">
-                        <Bot size={48} className="mx-auto mb-4 text-primary-400" />
-                        <h2 className="text-2xl font-semibold mb-2">Welcome to Memora</h2>
-                        <p className="text-dark-300">
-                            Your AI assistant with long-term memory. I'll remember our conversations
-                            and provide personalized responses based on what I learn about you.
-                        </p>
+                <div className="flex flex-col items-center justify-center h-full text-center animate-fade-in-up">
+                    <div className="glass-panel p-8 md:p-12 rounded-3xl max-w-lg relative overflow-hidden group">
+                        <div className="absolute inset-0 bg-gradient-to-br from-primary-500/10 to-secondary-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                        <div className="relative z-10">
+                            <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-primary-500 to-secondary-500 p-0.5 animate-float">
+                                <div className="w-full h-full bg-dark-900 rounded-2xl flex items-center justify-center">
+                                    <Bot size={40} className="text-transparent bg-clip-text bg-gradient-to-br from-primary-400 to-secondary-400" />
+                                </div>
+                            </div>
+
+                            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+                                Hello, I'm <span className="text-gradient">Memora</span>
+                            </h2>
+
+                            <p className="text-dark-300 text-lg leading-relaxed mb-8">
+                                I'm your personal AI companion with long-term memory.
+                                I learn from our conversations to serve you better.
+                            </p>
+
+                            <div className="flex flex-wrap justify-center gap-3">
+                                {['What can you remember?', 'Who am I?', 'Tell me a joke'].map((suggestion) => (
+                                    <div key={suggestion} className="glass-button px-4 py-2 rounded-xl text-sm text-dark-300 cursor-pointer hover:text-white">
+                                        "{suggestion}"
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </div>
             ) : (
@@ -34,9 +54,11 @@ export const ChatInterface = ({ messages, isLoading }) => {
                         <MessageBubble key={msg.id} message={msg} />
                     ))}
                     {isLoading && (
-                        <div className="flex items-center gap-2 text-dark-300">
-                            <Loader2 size={16} className="animate-spin" />
-                            <span className="text-sm">Thinking...</span>
+                        <div className="flex items-center gap-3 text-dark-400 ml-4 animate-pulse">
+                            <div className="w-8 h-8 rounded-full glass-panel flex items-center justify-center">
+                                <Bot size={16} className="text-primary-400" />
+                            </div>
+                            <span className="text-sm font-medium">Thinking...</span>
                         </div>
                     )}
                 </>
@@ -52,32 +74,35 @@ const MessageBubble = ({ message }) => {
 
     if (isSystem) {
         return (
-            <div className="text-center text-sm text-red-400 italic">
+            <div className="text-center text-sm text-red-400 italic my-4 bg-red-500/10 py-2 rounded-lg">
                 {message.content}
             </div>
         );
     }
 
     return (
-        <div className={`flex items-start gap-3 ${isUser ? 'flex-row-reverse' : ''}`}>
-            <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${isUser ? 'bg-gradient-to-r from-primary-600 to-primary-500' : 'glass-effect'
+        <div className={`flex items-end gap-3 ${isUser ? 'flex-row-reverse' : ''} group`}>
+            <div className={`flex-shrink-0 w-8 h-8 rounded-xl flex items-center justify-center shadow-lg ${isUser
+                    ? 'bg-gradient-to-br from-primary-500 to-primary-600 text-white'
+                    : 'glass-panel text-primary-400'
                 }`}>
                 {isUser ? <User size={16} /> : <Bot size={16} />}
             </div>
 
             <div className={isUser ? 'message-user' : 'message-assistant'}>
-                <p className="whitespace-pre-wrap">{message.content}</p>
+                <p className="whitespace-pre-wrap leading-relaxed">{message.content}</p>
 
                 {message.memories_used && message.memories_used.length > 0 && (
-                    <div className="mt-2 pt-2 border-t border-white/10">
-                        <p className="text-xs text-dark-300 mb-1">
-                            💭 Used {message.memories_used.length} memories
+                    <div className="mt-3 pt-2 border-t border-white/5 flex items-center gap-2">
+                        <div className="w-1.5 h-1.5 rounded-full bg-secondary-400 animate-pulse" />
+                        <p className="text-xs text-secondary-300 font-medium">
+                            Recalled {message.memories_used.length} memories
                         </p>
                     </div>
                 )}
 
-                <p className="text-xs text-dark-400 mt-1">
-                    {new Date(message.timestamp).toLocaleTimeString()}
+                <p className={`text-[10px] mt-1 opacity-0 group-hover:opacity-100 transition-opacity absolute -bottom-5 ${isUser ? 'right-0' : 'left-0'} text-dark-400 whitespace-nowrap`}>
+                    {new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </p>
             </div>
         </div>

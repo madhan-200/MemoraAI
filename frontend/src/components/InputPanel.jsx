@@ -1,12 +1,13 @@
 /**
  * Input panel with text and voice input
  */
-import { useState } from 'react';
-import { Send, Loader2 } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { Send, Mic, Brain, Sparkles } from 'lucide-react';
 import { VoiceInput } from './VoiceInput';
 
 export const InputPanel = ({ onSendMessage, isLoading, memoryEnabled, onToggleMemory }) => {
     const [message, setMessage] = useState('');
+    const textareaRef = useRef(null);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -16,61 +17,90 @@ export const InputPanel = ({ onSendMessage, isLoading, memoryEnabled, onToggleMe
         }
     };
 
-    const handleVoiceTranscript = (transcript) => {
-        setMessage(transcript);
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handleSubmit(e);
+        }
     };
 
+    // Auto-resize textarea
+    useEffect(() => {
+        if (textareaRef.current) {
+            textareaRef.current.style.height = 'auto';
+            textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 120)}px`;
+        }
+    }, [message]);
+
     return (
-        <div className="glass-effect p-4 rounded-t-2xl border-t border-white/10">
-            <form onSubmit={handleSubmit} className="flex items-end gap-3">
-                <div className="flex-1">
+        <form onSubmit={handleSubmit} className="relative z-20">
+            <div className={`
+                relative flex items-end gap-2 p-2 rounded-3xl transition-all duration-300
+                bg-dark-800/80 backdrop-blur-xl border border-white/10 shadow-2xl
+                ${isLoading ? 'opacity-80 pointer-events-none' : 'hover:border-primary-500/30 hover:shadow-primary-500/10'}
+            `}>
+                {/* Memory Toggle */}
+                <button
+                    type="button"
+                    onClick={() => onToggleMemory(!memoryEnabled)}
+                    className={`
+                        p-3 rounded-2xl transition-all duration-300 flex-shrink-0
+                        ${memoryEnabled
+                            ? 'bg-gradient-to-br from-primary-500 to-secondary-500 text-white shadow-lg shadow-primary-500/25'
+                            : 'bg-white/5 text-dark-400 hover:bg-white/10 hover:text-white'}
+                    `}
+                    title={memoryEnabled ? "Memory Active" : "Memory Paused"}
+                >
+                    <Brain size={20} className={memoryEnabled ? 'animate-pulse' : ''} />
+                </button>
+
+                {/* Text Input */}
+                <div className="flex-1 min-w-0 py-2">
                     <textarea
+                        ref={textareaRef}
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter' && !e.shiftKey) {
-                                e.preventDefault();
-                                handleSubmit(e);
-                            }
-                        }}
-                        placeholder="Type your message..."
-                        className="input-field w-full resize-none min-h-[50px] max-h-[150px]"
+                        onKeyDown={handleKeyDown}
+                        placeholder="Ask anything..."
                         rows={1}
-                        disabled={isLoading}
+                        className="w-full bg-transparent text-white placeholder-dark-400 resize-none focus:outline-none max-h-[120px] py-1 px-2 leading-relaxed"
+                        style={{ minHeight: '24px' }}
                     />
-
-                    <div className="flex items-center gap-2 mt-2">
-                        <label className="flex items-center gap-2 text-sm text-dark-300 cursor-pointer">
-                            <input
-                                type="checkbox"
-                                checked={memoryEnabled}
-                                onChange={(e) => onToggleMemory(e.target.checked)}
-                                className="w-4 h-4 rounded accent-primary-500"
-                            />
-                            <span>Enable Memory</span>
-                        </label>
-                    </div>
                 </div>
 
-                <div className="flex gap-2">
-                    <VoiceInput
-                        onTranscript={handleVoiceTranscript}
-                        disabled={isLoading}
-                    />
+                {/* Actions Group */}
+                <div className="flex items-center gap-1 pb-1">
+                    <VoiceInput onTranscript={(text) => setMessage(text)} isLoading={isLoading} />
+
+                    <button
+                        type="button"
+                        className="p-2 text-dark-400 hover:text-primary-400 transition-colors rounded-xl hover:bg-white/5"
+                        title="Enhance prompt (Coming soon)"
+                    >
+                        <Sparkles size={18} />
+                    </button>
 
                     <button
                         type="submit"
                         disabled={!message.trim() || isLoading}
-                        className="btn-primary p-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className={`
+                            p-3 rounded-2xl transition-all duration-300 flex-shrink-0 ml-1
+                            ${message.trim() && !isLoading
+                                ? 'bg-white text-primary-600 shadow-lg hover:scale-105 active:scale-95'
+                                : 'bg-white/5 text-dark-500 cursor-not-allowed'}
+                        `}
                     >
-                        {isLoading ? (
-                            <Loader2 size={20} className="animate-spin" />
-                        ) : (
-                            <Send size={20} />
-                        )}
+                        <Send size={20} className={message.trim() && !isLoading ? 'fill-current' : ''} />
                     </button>
                 </div>
-            </form>
-        </div>
+            </div>
+
+            {/* Helper Text */}
+            <div className="absolute -bottom-6 left-0 right-0 text-center">
+                <p className="text-[10px] text-dark-500 font-medium tracking-wide">
+                    MEMORA AI • POWERED BY GEMINI 2.0
+                </p>
+            </div>
+        </form>
     );
 };
