@@ -36,7 +36,7 @@ export const InputPanel = ({ onSendMessage, isLoading, memoryEnabled, onToggleMe
         <form onSubmit={handleSubmit} className="relative z-20">
             <div className={`
                 relative flex items-end gap-2 p-2 rounded-3xl transition-all duration-300
-                bg-dark-800/80 backdrop-blur-xl border border-white/10 shadow-2xl
+                input-container
                 ${isLoading ? 'opacity-80 pointer-events-none' : 'hover:border-primary-500/30 hover:shadow-primary-500/10'}
             `}>
                 {/* Memory Toggle */}
@@ -63,7 +63,7 @@ export const InputPanel = ({ onSendMessage, isLoading, memoryEnabled, onToggleMe
                         onKeyDown={handleKeyDown}
                         placeholder="Ask anything..."
                         rows={1}
-                        className="w-full bg-transparent text-white placeholder-dark-400 resize-none focus:outline-none max-h-[120px] py-1 px-2 leading-relaxed"
+                        className="w-full bg-transparent text-foreground placeholder-muted resize-none focus:outline-none max-h-[120px] py-1 px-2 leading-relaxed"
                         style={{ minHeight: '24px' }}
                     />
                 </div>
@@ -74,7 +74,7 @@ export const InputPanel = ({ onSendMessage, isLoading, memoryEnabled, onToggleMe
 
                     <button
                         type="button"
-                        className="p-2 text-dark-400 hover:text-primary-400 transition-colors rounded-xl hover:bg-white/5"
+                        className="p-2 text-muted hover:text-primary-400 transition-colors rounded-xl hover:bg-white/5"
                         title="Enhance prompt (Coming soon)"
                     >
                         <Sparkles size={18} />
@@ -97,7 +97,7 @@ export const InputPanel = ({ onSendMessage, isLoading, memoryEnabled, onToggleMe
 
             {/* Helper Text */}
             <div className="absolute -bottom-6 left-0 right-0 text-center">
-                <p className="text-[10px] text-dark-500 font-medium tracking-wide">
+                <p className="text-[10px] text-muted-dark font-medium tracking-wide">
                     MEMORA AI • POWERED BY GEMINI 2.0
                 </p>
             </div>

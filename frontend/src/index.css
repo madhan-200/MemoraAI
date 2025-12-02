@@ -229,6 +229,27 @@
       inset 4px 4px 8px rgba(0, 0, 0, 0.1),
       inset -4px -4px 8px rgba(255, 255, 255, 0.8);
   }
+
+  /* Input Container - Theme Aware */
+  .input-container {
+    @apply backdrop-blur-xl border shadow-2xl;
+    background: rgba(30, 41, 59, 0.8);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  [data-theme="light"] .input-container {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+
+  /* Background Panel - Theme Aware */
+  .bg-background-panel {
+    background-color: #0f172a;
+  }
+
+  [data-theme="light"] .bg-background-panel {
+    background-color: #ffffff;
+  }
 }
 
 @layer utilities {
@@ -245,5 +266,39 @@
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-400 via-secondary-400 to-primary-400;
     background-size: 300% 300%;
     animation: gradient 4s ease infinite;
+  }
+
+  /* Theme-aware text colors */
+  .text-foreground {
+    color: #f1f5f9;
+  }
+
+  [data-theme="light"] .text-foreground {
+    color: #0f172a;
+  }
+
+  .text-muted {
+    color: #94a3b8;
+  }
+
+  [data-theme="light"] .text-muted {
+    color: #64748b;
+  }
+
+  .text-muted-dark {
+    color: #64748b;
+  }
+
+  [data-theme="light"] .text-muted-dark {
+    color: #94a3b8;
+  }
+
+  /* Theme-aware placeholder */
+  .placeholder-muted::placeholder {
+    color: #94a3b8;
+  }
+
+  [data-theme="light"] .placeholder-muted::placeholder {
+    color: #64748b;
   }
 }

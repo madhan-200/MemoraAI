@@ -46,13 +46,13 @@ export const MemoryPanel = ({ userId }) => {
             </div>
 
             <div className="flex items-center justify-between mb-6 relative z-10">
-                <h3 className="font-bold text-white flex items-center gap-2">
+                <h3 className="font-bold text-foreground flex items-center gap-2">
                     <Activity size={18} className="text-secondary-400" />
                     Memory Core
                 </h3>
                 <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-dark-900/50 border border-white/5">
                     <div className={`w-2 h-2 rounded-full ${stats ? 'bg-green-400 animate-pulse' : 'bg-red-400'}`} />
-                    <span className="text-xs font-medium text-dark-300">
+                    <span className="text-xs font-medium text-muted">
                         {stats ? 'ONLINE' : 'OFFLINE'}
                     </span>
                 </div>
@@ -62,10 +62,10 @@ export const MemoryPanel = ({ userId }) => {
                 {/* Memory Usage Stat */}
                 <div>
                     <div className="flex justify-between text-sm mb-2">
-                        <span className="text-dark-300 flex items-center gap-2">
+                        <span className="text-muted flex items-center gap-2">
                             <HardDrive size={14} /> Storage
                         </span>
-                        <span className="text-white font-mono">{memoryCount} / {maxMemories}</span>
+                        <span className="text-foreground font-mono">{memoryCount} / {maxMemories}</span>
                     </div>
                     <div className="h-2 bg-dark-900 rounded-full overflow-hidden">
                         <div
@@ -80,16 +80,16 @@ export const MemoryPanel = ({ userId }) => {
                 {/* Quick Stats Grid */}
                 <div className="grid grid-cols-2 gap-3">
                     <div className="bg-white/5 rounded-2xl p-3 border border-white/5 hover:border-primary-500/30 transition-colors">
-                        <div className="text-xs text-dark-400 mb-1 flex items-center gap-1">
+                        <div className="text-xs text-muted mb-1 flex items-center gap-1">
                             <Zap size={12} /> Latency
                         </div>
-                        <div className="text-lg font-bold text-white">
-                            ~120<span className="text-xs text-dark-400 font-normal ml-1">ms</span>
+                        <div className="text-lg font-bold text-foreground">
+                            ~120<span className="text-xs text-muted font-normal ml-1">ms</span>
                         </div>
                     </div>
                     <div className="bg-white/5 rounded-2xl p-3 border border-white/5 hover:border-secondary-500/30 transition-colors">
-                        <div className="text-xs text-dark-400 mb-1">Vector Dim</div>
-                        <div className="text-lg font-bold text-white">768</div>
+                        <div className="text-xs text-muted mb-1">Vector Dim</div>
+                        <div className="text-lg font-bold text-foreground">768</div>
                     </div>
                 </div>
             </div>

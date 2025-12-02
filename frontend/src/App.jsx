@@ -125,11 +125,11 @@ function App() {
             <MemoryPanel userId={userId} />
 
             <div className="glass-panel p-5 rounded-2xl mt-auto lg:mt-0">
-              <h3 className="font-semibold mb-2 text-sm text-white flex items-center gap-2">
+              <h3 className="font-semibold mb-2 text-sm text-foreground flex items-center gap-2">
                 <Brain size={14} className="text-primary-400" />
                 About Memora
               </h3>
-              <p className="text-xs text-dark-300 leading-relaxed">
+              <p className="text-xs text-muted leading-relaxed">
                 Your personal AI companion that evolves with you. It remembers your context, preferences, and history to provide a truly personalized experience.
               </p>
             </div>

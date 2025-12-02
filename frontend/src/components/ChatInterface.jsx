@@ -24,16 +24,16 @@ export const ChatInterface = ({ messages, isLoading, onSuggestionClick }) => {
 
                         <div className="relative z-10">
                             <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-primary-500 to-secondary-500 p-0.5 animate-float">
-                                <div className="w-full h-full bg-dark-900 rounded-2xl flex items-center justify-center">
+                                <div className="w-full h-full bg-background-panel rounded-2xl flex items-center justify-center">
                                     <Bot size={32} className="text-primary-400" />
                                 </div>
                             </div>
 
-                            <h2 className="text-2xl md:text-3xl font-bold mb-3" style={{ color: '#f1f5f9' }}>
+                            <h2 className="text-2xl md:text-3xl font-bold mb-3 text-foreground">
                                 Hello, I'm <span className="text-gradient">Memora</span>
                             </h2>
 
-                            <p className="text-base leading-relaxed mb-6" style={{ color: '#cbd5e1' }}>
+                            <p className="text-base leading-relaxed mb-6 text-muted">
                                 I'm your personal AI companion with long-term memory.
                                 I learn from our conversations to serve you better.
                             </p>
@@ -43,8 +43,7 @@ export const ChatInterface = ({ messages, isLoading, onSuggestionClick }) => {
                                     <button
                                         key={suggestion}
                                         onClick={() => onSuggestionClick?.(suggestion)}
-                                        className="glass-button px-3 py-2 rounded-xl text-sm cursor-pointer hover:scale-105 transition-transform"
-                                        style={{ color: '#e2e8f0' }}
+                                        className="glass-button px-3 py-2 rounded-xl text-sm cursor-pointer hover:scale-105 transition-transform text-foreground"
                                     >
                                         {suggestion}
                                     </button>
@@ -59,7 +58,7 @@ export const ChatInterface = ({ messages, isLoading, onSuggestionClick }) => {
                         <MessageBubble key={msg.id} message={msg} />
                     ))}
                     {isLoading && (
-                        <div className="flex items-center gap-3 ml-4 animate-pulse" style={{ color: '#94a3b8' }}>
+                        <div className="flex items-center gap-3 ml-4 animate-pulse text-muted">
                             <div className="w-8 h-8 rounded-full glass-panel flex items-center justify-center">
                                 <Bot size={16} className="text-primary-400" />
                             </div>
@@ -88,8 +87,8 @@ const MessageBubble = ({ message }) => {
     return (
         <div className={`flex items-end gap-3 ${isUser ? 'flex-row-reverse' : ''} group relative`}>
             <div className={`flex-shrink-0 w-8 h-8 rounded-xl flex items-center justify-center shadow-lg ${isUser
-                    ? 'bg-gradient-to-br from-primary-500 to-primary-600 text-white'
-                    : 'glass-panel text-primary-400'
+                ? 'bg-gradient-to-br from-primary-500 to-primary-600 text-white'
+                : 'glass-panel text-primary-400'
                 }`}>
                 {isUser ? <User size={16} /> : <Bot size={16} />}
             </div>
@@ -106,7 +105,7 @@ const MessageBubble = ({ message }) => {
                     </div>
                 )}
 
-                <p className={`text-[10px] mt-1 opacity-0 group-hover:opacity-100 transition-opacity absolute -bottom-5 ${isUser ? 'right-0' : 'left-0'} whitespace-nowrap`} style={{ color: '#94a3b8' }}>
+                <p className={`text-[10px] mt-1 opacity-0 group-hover:opacity-100 transition-opacity absolute -bottom-5 ${isUser ? 'right-0' : 'left-0'} whitespace-nowrap text-muted`}>
                     {new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </p>
             </div>
