@@ -65,9 +65,24 @@ Be conversational, friendly, and helpful."""
         
         full_prompt += f"\n\nUser: {user_message}\n\nAssistant:"
         
-        # Generate response
-        response = self.model.generate_content(full_prompt)
-        response_text = response.text
+        # Generate response with retry logic
+        max_retries = 3
+        base_delay = 1
+        
+        for attempt in range(max_retries):
+            try:
+                response = self.model.generate_content(full_prompt)
+                response_text = response.text
+                break
+            except Exception as e:
+                if "429" in str(e) and attempt < max_retries - 1:
+                    import time
+                    import random
+                    delay = (base_delay * (2 ** attempt)) + (random.random() * 0.5)
+                    print(f"Rate limit hit, retrying in {delay:.2f}s...")
+                    time.sleep(delay)
+                else:
+                    raise e
         
         # Process conversation for potential memory storage
         if memory_enabled:

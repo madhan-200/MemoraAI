@@ -35,27 +35,29 @@ export const InputPanel = ({ onSendMessage, isLoading, memoryEnabled, onToggleMe
     return (
         <form onSubmit={handleSubmit} className="relative z-20">
             <div className={`
-                relative flex items-end gap-2 p-2 rounded-3xl transition-all duration-300
-                input-container
-                ${isLoading ? 'opacity-80 pointer-events-none' : 'hover:border-primary-500/30 hover:shadow-primary-500/10'}
+                relative flex items-end gap-2 p-2 rounded-[24px] transition-all duration-300
+                input-container border border-white/5
+                focus-within:border-primary-500/30 focus-within:shadow-[0_0_20px_rgba(139,92,246,0.1)] focus-within:bg-dark-800/90
+                ${isLoading ? 'opacity-80 pointer-events-none' : 'hover:border-primary-500/20 hover:shadow-lg hover:shadow-primary-500/5'}
             `}>
                 {/* Memory Toggle */}
                 <button
                     type="button"
                     onClick={() => onToggleMemory(!memoryEnabled)}
                     className={`
-                        p-3 rounded-2xl transition-all duration-300 flex-shrink-0
+                        p-3 rounded-2xl transition-all duration-300 flex-shrink-0 group relative overflow-hidden
                         ${memoryEnabled
                             ? 'bg-gradient-to-br from-primary-500 to-secondary-500 text-white shadow-lg shadow-primary-500/25'
                             : 'bg-white/5 text-dark-400 hover:bg-white/10 hover:text-white'}
                     `}
                     title={memoryEnabled ? "Memory Active" : "Memory Paused"}
                 >
-                    <Brain size={20} className={memoryEnabled ? 'animate-pulse' : ''} />
+                    <div className={`absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ${memoryEnabled ? 'block' : 'hidden'}`} />
+                    <Brain size={20} className={`relative z-10 ${memoryEnabled ? 'animate-pulse' : ''}`} />
                 </button>
 
                 {/* Text Input */}
-                <div className="flex-1 min-w-0 py-2">
+                <div className="flex-1 min-w-0 py-2.5">
                     <textarea
                         ref={textareaRef}
                         value={message}
@@ -63,18 +65,18 @@ export const InputPanel = ({ onSendMessage, isLoading, memoryEnabled, onToggleMe
                         onKeyDown={handleKeyDown}
                         placeholder="Ask anything..."
                         rows={1}
-                        className="w-full bg-transparent text-foreground placeholder-muted resize-none focus:outline-none max-h-[120px] py-1 px-2 leading-relaxed"
+                        className="w-full bg-transparent text-foreground placeholder-muted resize-none focus:outline-none max-h-[120px] py-1 px-3 leading-relaxed text-[15px]"
                         style={{ minHeight: '24px' }}
                     />
                 </div>
 
                 {/* Actions Group */}
-                <div className="flex items-center gap-1 pb-1">
+                <div className="flex items-center gap-1.5 pb-1.5 pr-1">
                     <VoiceInput onTranscript={(text) => setMessage(text)} isLoading={isLoading} />
 
                     <button
                         type="button"
-                        className="p-2 text-muted hover:text-primary-400 transition-colors rounded-xl hover:bg-white/5"
+                        className="p-2.5 text-muted hover:text-primary-400 transition-colors rounded-xl hover:bg-primary-500/10"
                         title="Enhance prompt (Coming soon)"
                     >
                         <Sparkles size={18} />
@@ -86,7 +88,7 @@ export const InputPanel = ({ onSendMessage, isLoading, memoryEnabled, onToggleMe
                         className={`
                             p-3 rounded-2xl transition-all duration-300 flex-shrink-0 ml-1
                             ${message.trim() && !isLoading
-                                ? 'bg-white text-primary-600 shadow-lg hover:scale-105 active:scale-95'
+                                ? 'bg-white text-primary-600 shadow-lg hover:scale-105 active:scale-95 hover:shadow-white/20'
                                 : 'bg-white/5 text-dark-500 cursor-not-allowed'}
                         `}
                     >
@@ -96,9 +98,9 @@ export const InputPanel = ({ onSendMessage, isLoading, memoryEnabled, onToggleMe
             </div>
 
             {/* Helper Text */}
-            <div className="absolute -bottom-6 left-0 right-0 text-center">
-                <p className="text-[10px] text-muted-dark font-medium tracking-wide">
-                    MEMORA AI • POWERED BY GEMINI 2.0
+            <div className="absolute -bottom-7 left-0 right-0 text-center">
+                <p className="text-[10px] text-muted-dark font-medium tracking-widest opacity-50 uppercase">
+                    Memora AI • Powered by Gemini 2.0
                 </p>
             </div>
         </form>

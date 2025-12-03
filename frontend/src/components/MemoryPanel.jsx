@@ -34,7 +34,7 @@ export const MemoryPanel = ({ userId }) => {
         </div>
     );
 
-    const memoryCount = stats?.total_memories || 0;
+    const memoryCount = stats?.memory_count || 0;
     const maxMemories = 100; // Arbitrary limit for visual progress
     const usagePercent = Math.min((memoryCount / maxMemories) * 100, 100);
 
@@ -46,8 +46,8 @@ export const MemoryPanel = ({ userId }) => {
                     Memory Core
                 </h3>
                 <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full border ${stats
-                        ? 'bg-green-500/10 border-green-500/30'
-                        : 'bg-red-500/10 border-red-500/30'
+                    ? 'bg-green-500/10 border-green-500/30'
+                    : 'bg-red-500/10 border-red-500/30'
                     }`}>
                     <div className={`w-2 h-2 rounded-full ${stats ? 'bg-green-400 animate-pulse' : 'bg-red-400'}`} />
                     <span className={`text-xs font-semibold ${stats ? 'text-green-400' : 'text-red-400'}`}>
