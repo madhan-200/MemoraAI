@@ -42,5 +42,16 @@
       "type": "conversation",
       "assistant_response": "Hello Madhan! It's nice to meet you. I'm Memora, and I'm here to help. Is there anything I can assist you with today?\n"
     }
+  },
+  {
+    "id": "48845e7c-2483-43a3-a5be-b154166fa419",
+    "content": "What can you remember?",
+    "user_id": "default_user",
+    "timestamp": "2025-12-03T07:45:05.137954",
+    "source": "User: What can you remember?...",
+    "metadata": {
+      "type": "conversation",
+      "assistant_response": "Hello! I can remember quite a bit, actually. To give you a good overview of what I've got stored, I'd need a little more information from you.\n\nCould you tell me:\n\n*   **What are you interested in spe"
+    }
   }
 ]

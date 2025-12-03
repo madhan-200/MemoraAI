@@ -111,6 +111,39 @@ async def chat(request: ChatRequest):
         raise HTTPException(status_code=500, detail=f"Error processing chat: {str(e)}")
 
 
+@app.post("/enhance")
+async def enhance_prompt(request: dict):
+    """
+    Enhance a user's prompt to be more detailed and effective.
+    
+    Takes a simple prompt and uses AI to make it more specific and actionable.
+    """
+    try:
+        user_prompt = request.get("prompt", "")
+        
+        if not user_prompt.strip():
+            raise HTTPException(status_code=400, detail="Prompt cannot be empty")
+        
+        # Use AI to enhance the prompt
+        enhancement_instruction = f"""You are a prompt enhancement assistant. Take the user's simple prompt and make it more detailed, specific, and effective for an AI conversation.
+
+User's original prompt: "{user_prompt}"
+
+Enhanced prompt (return ONLY the enhanced prompt, nothing else):"""
+        
+        response = conversation_handler.model.generate_content(enhancement_instruction)
+        enhanced_prompt = response.text.strip()
+        
+        return {
+            "original": user_prompt,
+            "enhanced": enhanced_prompt
+        }
+        
+    except Exception as e:
+        logger.error(f"Error in enhance endpoint: {e}")
+        raise HTTPException(status_code=500, detail=f"Error enhancing prompt: {str(e)}")
+
+
 @app.post("/remember", response_model=RememberResponse)
 async def remember(request: RememberRequest):
     """

@@ -3,10 +3,12 @@
  */
 import { useState, useRef, useEffect } from 'react';
 import { Send, Mic, Brain, Sparkles } from 'lucide-react';
+import axios from 'axios';
 import { VoiceInput } from './VoiceInput';
 
 export const InputPanel = ({ onSendMessage, isLoading, memoryEnabled, onToggleMemory }) => {
     const [message, setMessage] = useState('');
+    const [isEnhancing, setIsEnhancing] = useState(false);
     const textareaRef = useRef(null);
 
     const handleSubmit = (e) => {
@@ -21,6 +23,25 @@ export const InputPanel = ({ onSendMessage, isLoading, memoryEnabled, onToggleMe
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
             handleSubmit(e);
+        }
+    };
+
+    const handleEnhancePrompt = async () => {
+        if (!message.trim() || isEnhancing || isLoading) return;
+
+        setIsEnhancing(true);
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/enhance`, {
+                prompt: message
+            });
+
+            // Replace message with enhanced version
+            setMessage(response.data.enhanced);
+        } catch (error) {
+            console.error('Failed to enhance prompt:', error);
+            // Optionally show error to user
+        } finally {
+            setIsEnhancing(false);
         }
     };
 
@@ -71,13 +92,18 @@ export const InputPanel = ({ onSendMessage, isLoading, memoryEnabled, onToggleMe
                 </div>
 
                 {/* Actions Group */}
-                <div className="flex items-center gap-1.5 pb-1.5 pr-1">
+                <div className="flex items-center gap-1.5">
                     <VoiceInput onTranscript={(text) => setMessage(text)} isLoading={isLoading} />
 
                     <button
                         type="button"
-                        className="p-2.5 text-muted hover:text-primary-400 transition-colors rounded-xl hover:bg-primary-500/10"
-                        title="Enhance prompt (Coming soon)"
+                        onClick={handleEnhancePrompt}
+                        disabled={!message.trim() || isEnhancing || isLoading}
+                        className={`p-2.5 transition-colors rounded-xl ${isEnhancing
+                            ? 'text-primary-400 bg-primary-500/20 animate-pulse'
+                            : 'text-muted hover:text-primary-400 hover:bg-primary-500/10'
+                            } disabled:opacity-50 disabled:cursor-not-allowed`}
+                        title={isEnhancing ? "Enhancing..." : "Enhance prompt with AI"}
                     >
                         <Sparkles size={18} />
                     </button>
