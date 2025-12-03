@@ -1,13 +1,15 @@
 # Memora - AI Agent with Long-Term Memory
 
-A voice/text-interactive AI assistant with persistent long-term memory capabilities. Built with LangChain, Google Gemini, JSON Storage, and React.
+A voice/text-interactive AI assistant with persistent long-term memory capabilities. Built with Google Gemini SDK, JSON Storage, and React.
 
 ## 🌟 Features
 
 - **💬 Natural Conversations**: Chat with an AI that understands context and maintains conversation flow
 - **🧠 Long-Term Memory**: Automatically stores and recalls preferences, goals, and important information
+- **✨ Enhance Prompt**: AI-powered prompt improvement to help you ask better questions
 - **🎤 Voice Input**: Speak to the assistant using Web Speech API (browser-based)
-- **📊 Memory Visualization**: See your memory statistics and connection status in real-time
+- **📊 Memory Visualization**: Real-time connection status and memory system monitoring
+- **👍 Feedback System**: Rate AI responses with thumbs up/down to improve interaction
 - **🔄 Cross-Session Persistence**: Memories persist across browser sessions and devices
 - **🎨 Modern UI**: Beautiful glassmorphism design with smooth animations
 - **⚡ Real-Time Updates**: Instant responses with loading indicators
@@ -17,7 +19,7 @@ A voice/text-interactive AI assistant with persistent long-term memory capabilit
 ```mermaid
 graph TB
     A[React Frontend] -->|HTTP/REST| B[FastAPI Backend]
-    B -->|LangChain| C[Gemini AI]
+    B -->|Google SDK| C[Gemini AI]
     B -->|Read/Write| D[JSON Storage]
     B -->|Memory Logic| F[Memory Manager]
     F -->|Store/Retrieve| D
@@ -27,7 +29,7 @@ graph TB
 
 ### Backend
 - **FastAPI**: High-performance async API framework
-- **LangChain**: LLM orchestration and conversation management
+- **Google Gemini SDK**: Direct integration with Gemini 2.0 model
 - **Google Gemini**: Advanced AI language model
 - **JSON Storage**: Lightweight file-based memory storage
 - **Pydantic**: Data validation and settings management
@@ -90,9 +92,11 @@ The frontend will start at `http://localhost:5173`
 ## 🚀 Usage
 
 1. **Start a Conversation**: Type a message or click the microphone icon to speak
-2. **Enable Memory**: Toggle the "Enable Memory" checkbox to control memory storage
-3. **View Memory Stats**: Check the sidebar to see total memories and connection status
-4. **Clear Chat**: Click the "Clear" button to reset the conversation history
+2. **Enhance Prompt**: Click the Sparkles icon to let AI improve your question before sending
+3. **Enable Memory**: Toggle the "Enable Memory" checkbox to control memory storage
+4. **View Status**: Check the sidebar to see the system connection status
+5. **Provide Feedback**: Use thumbs up/down buttons on AI responses
+6. **Clear Chat**: Click the "Clear" button to reset the conversation history
 
 ### Example Interactions
 
@@ -151,6 +155,24 @@ Search for memories based on a query.
   "query": "favorite color",
   "user_id": "default_user",
   "limit": 5
+}
+```
+
+#### POST `/enhance`
+Improve a user's prompt using AI.
+
+**Request:**
+```json
+{
+  "prompt": "weather"
+}
+```
+
+**Response:**
+```json
+{
+  "original": "weather",
+  "enhanced": "Could you please provide me with the current weather conditions?"
 }
 ```
 
@@ -249,7 +271,6 @@ MIT License - feel free to use this project for learning or commercial purposes.
 ## 🙏 Acknowledgments
 
 - Google Gemini for the powerful AI model
-- LangChain for LLM orchestration
 - The open-source community
 
 ---
