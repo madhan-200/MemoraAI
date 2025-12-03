@@ -13,6 +13,9 @@ class Settings:
         # Gemini API Configuration
         self.gemini_api_key = os.getenv("GEMINI_API_KEY", "")
         
+        # Tavily API Configuration (for web search)
+        self.tavily_api_key = os.getenv("TAVILY_API_KEY", "")
+        
         # Memory Configuration
         self.memory_file_path = os.getenv("MEMORY_FILE_PATH", "./memories.json")
         

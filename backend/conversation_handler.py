@@ -1,12 +1,14 @@
 """Simplified conversation handling using Google Generative AI SDK directly."""
 from typing import List, Dict, Any
 import google.generativeai as genai
+from google.generativeai.types import FunctionDeclaration, Tool
 from config import settings
 from memory_manager import MemoryManager
+from web_search import web_search
 
 
 class ConversationHandler:
-    """Handles conversations with memory-augmented context."""
+    """Handles conversations with memory-augmented context and web search."""
     
     def __init__(self, memory_manager: MemoryManager):
         """Initialize conversation handler."""
@@ -14,15 +16,42 @@ class ConversationHandler:
         
         # Configure Gemini
         genai.configure(api_key=settings.gemini_api_key)
-        self.model = genai.GenerativeModel(settings.gemini_model)
+        
+        # Define web search function for Gemini
+        search_function = FunctionDeclaration(
+            name="search_web",
+            description="Search the internet for current information, news, weather, facts, or any real-time data. Use this when the user asks about current events, weather, prices, or anything that requires up-to-date information.",
+            parameters={
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": "The search query to look up on the internet"
+                    }
+                },
+                "required": ["query"]
+            }
+        )
+        
+        # Create model with tools
+        self.model = genai.GenerativeModel(
+            settings.gemini_model,
+            tools=[Tool(function_declarations=[search_function])]
+        )
         
         # System prompt
-        self.system_prompt = """You are Memora, a helpful AI assistant with long-term memory capabilities. 
-You can remember information about the user across conversations and use that context to provide 
-more personalized and relevant responses.
+        self.system_prompt = """You are Memora, a helpful AI assistant with long-term memory capabilities and internet access.
 
-When relevant memories are provided, use them naturally in your responses. If you don't have 
-specific information in your memory, be honest about it rather than making assumptions.
+You can:
+1. Remember information about the user across conversations
+2. Search the internet for current information using the search_web function
+
+When the user asks about:
+- Current weather, news, events → Use search_web
+- Stock prices, sports scores → Use search_web  
+- Any real-time or recent information → Use search_web
+
+When relevant memories are provided, use them naturally in your responses.
 
 Be conversational, friendly, and helpful."""
     
@@ -45,7 +74,7 @@ Be conversational, friendly, and helpful."""
         user_id: str = "default_user",
         memory_enabled: bool = True
     ) -> tuple[str, List[Dict[str, Any]]]:
-        """Generate a response to user message with memory context."""
+        """Generate a response to user message with memory context and web search."""
         memories_used = []
         
         # Retrieve relevant memories if enabled
@@ -65,15 +94,41 @@ Be conversational, friendly, and helpful."""
         
         full_prompt += f"\n\nUser: {user_message}\n\nAssistant:"
         
-        # Generate response with retry logic
+        # Generate response with retry logic and function calling
         max_retries = 3
         base_delay = 1
         
         for attempt in range(max_retries):
             try:
-                response = self.model.generate_content(full_prompt)
+                # Start chat with function calling enabled
+                chat = self.model.start_chat()
+                response = chat.send_message(full_prompt)
+                
+                # Handle function calls
+                while response.candidates[0].content.parts[0].function_call:
+                    function_call = response.candidates[0].content.parts[0].function_call
+                    
+                    # Execute web search
+                    if function_call.name == "search_web":
+                        query = function_call.args.get("query", "")
+                        search_results = web_search.search(query)
+                        
+                        # Send results back to model
+                        response = chat.send_message(
+                            genai.protos.Content(
+                                parts=[genai.protos.Part(
+                                    function_response=genai.protos.FunctionResponse(
+                                        name="search_web",
+                                        response={"result": search_results}
+                                    )
+                                )]
+                            )
+                        )
+                
+                # Get final text response
                 response_text = response.text
                 break
+                
             except Exception as e:
                 if "429" in str(e) and attempt < max_retries - 1:
                     import time
