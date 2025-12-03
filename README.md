@@ -6,6 +6,7 @@ A voice/text-interactive AI assistant with persistent long-term memory capabilit
 
 - **💬 Natural Conversations**: Chat with an AI that understands context and maintains conversation flow
 - **🧠 Long-Term Memory**: Automatically stores and recalls preferences, goals, and important information
+- **🌐 Real-Time Web Search**: Access current information (weather, news, stock prices) via Tavily AI integration
 - **✨ Enhance Prompt**: AI-powered prompt improvement to help you ask better questions
 - **🎤 Voice Input**: Speak to the assistant using Web Speech API (browser-based)
 - **📊 Memory Visualization**: Real-time connection status and memory system monitoring
@@ -29,8 +30,9 @@ graph TB
 
 ### Backend
 - **FastAPI**: High-performance async API framework
-- **Google Gemini SDK**: Direct integration with Gemini 2.0 model
+- **Google Gemini SDK**: Direct integration with Gemini 2.0 model with function calling
 - **Google Gemini**: Advanced AI language model
+- **Tavily AI**: Real-time web search API for current information
 - **JSON Storage**: Lightweight file-based memory storage
 - **Pydantic**: Data validation and settings management
 
@@ -48,6 +50,7 @@ graph TB
 - Python 3.11+
 - Node.js 18+
 - Google Gemini API key ([Get one here](https://makersuite.google.com/app/apikey))
+- Tavily API key for web search ([Get one here](https://tavily.com))
 
 ### Backend Setup
 
