@@ -19,7 +19,7 @@ chroma_db/
 .env
 
 # IDE
-.vscode/
+.vscode/*
 .idea/
 *.swp
 *.swo
@@ -43,3 +43,6 @@ dist/
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Allow VS Code settings
+!.vscode/settings.json

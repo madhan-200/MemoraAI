@@ -31,7 +31,8 @@ export const InputPanel = ({ onSendMessage, isLoading, memoryEnabled, onToggleMe
 
         setIsEnhancing(true);
         try {
-            const response = await axios.post(`${import.meta.env.VITE_API_URL}/enhance`, {
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+            const response = await axios.post(`${apiUrl}/enhance`, {
                 prompt: message
             });
 
