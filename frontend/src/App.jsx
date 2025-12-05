@@ -12,7 +12,16 @@ import { ThemeProvider } from './contexts/ThemeContext';
 import './index.css';
 
 function App() {
-  const [userId] = useState('default_user');
+  const [userId] = useState(() => {
+    const stored = localStorage.getItem('memora_user_id');
+    if (stored) return stored;
+    // Generate simple unique ID if crypto.randomUUID not available
+    const newId = typeof crypto !== 'undefined' && crypto.randomUUID
+      ? crypto.randomUUID()
+      : `user_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+    localStorage.setItem('memora_user_id', newId);
+    return newId;
+  });
   const [memoryEnabled, setMemoryEnabled] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
